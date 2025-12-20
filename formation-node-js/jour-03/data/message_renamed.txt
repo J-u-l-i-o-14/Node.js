@@ -1,0 +1,2 @@
+Bonjour, ceci est le contenu initial.
+Ceci est une nouvelle ligne ajoutée.
