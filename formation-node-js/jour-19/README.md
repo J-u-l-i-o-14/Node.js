@@ -1,73 +1,39 @@
-# Jour 19 - Sécurité et Tests
+# 💬 Chat en Temps Réel - Node.js + Socket.IO
 
-## 🔐 Sécurité implémentée
+Application de chat en temps réel avec support des salles, messages privés, et upload d'images.
 
-### 1. Helmet.js
-Protection des en-têtes HTTP contre :
-- XSS (Cross-Site Scripting)
-- Clickjacking
-- MIME Sniffing
+## 🚀 Fonctionnalités
 
-```javascript
-app.use(helmet({
-    contentSecurityPolicy: false
-}));
-```
+- ✅ Chat en temps réel (Socket.IO)
+- ✅ Salles de discussion multiples
+- ✅ Messages privés
+- ✅ Indicateur "en train d'écrire..."
+- ✅ Upload d'images
+- ✅ Sécurité (Helmet, CORS, Rate Limiting)
 
-### 2. Rate Limiting
-Limitation à 100 requêtes par IP toutes les 15 minutes.
+## 🛠️ Technologies
 
-```javascript
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-});
-app.use(limiter);
-```
+- **Backend** : Node.js, Express, Socket.IO
+- **Upload** : Multer
+- **Sécurité** : Helmet, express-rate-limit, CORS
+- **Tests** : Jest, Supertest
 
-### 3. CORS
-Autorisation des requêtes cross-origin.
+## 📦 Installation locale
 
-```javascript
-app.use(cors());
-```
-
----
-
-## 🧪 Tests avec Jest et Supertest
-
-### Installation
 ```bash
-npm install --save-dev jest supertest
-```
-
-### Lancer les tests
-```bash
-npm test
-```
-
-### Structure
-- `tests/server.test.js` : Tests de base du serveur
-
-### Ce qui est testé
-1. **Health Check** : Vérification que le serveur répond
-2. **404 Handling** : Routes inexistantes
-3. **Concepts de sécurité** : Compréhension des middlewares
-
----
-
-## 📦 Dépendances ajoutées
-- `helmet` : Sécurité des en-têtes HTTP
-- `express-rate-limit` : Limitation de débit
-- `cors` : Cross-Origin Resource Sharing
-- `jest` : Framework de test
-- `supertest` : Test d'API HTTP
-
----
-
-## 🚀 Démarrage
-```bash
+npm install
 npm run dev
 ```
 
-Le serveur démarre sur `http://localhost:3000` avec toutes les protections activées.
+Ouvrez `http://localhost:3000`
+
+## 🌐 Déploiement
+
+Cette application est déployée sur Render.
+
+### Variables d'environnement
+- `PORT` : Port du serveur (automatique sur Render)
+
+## 📝 License
+
+MIT

@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose --coverage",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.2.1",

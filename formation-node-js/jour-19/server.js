@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Port dynamique pour le déploiement
 
 // SÉCURITÉ
 // 1. Helmet (En-têtes HTTP sécurisés)
