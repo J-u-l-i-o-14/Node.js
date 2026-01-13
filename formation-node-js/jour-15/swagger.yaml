@@ -1,0 +1,284 @@
+openapi: 3.0.0
+info:
+  title: API ToDo avec Authentification (Semaine 3 - Projet Final)
+  description: API complète combinant authentification JWT et gestion de tâches. Chaque utilisateur a ses propres tâches.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Serveur de développement
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [user, admin]
+        createdAt:
+          type: string
+          format: date-time
+    
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        user:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Authentification
+      summary: Inscription d'un nouvel utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  example: jdoe
+                email:
+                  type: string
+                  example: jdoe@example.com
+                password:
+                  type: string
+                  example: secret123456
+                role:
+                  type: string
+                  enum: [user, admin]
+                  default: user
+      responses:
+        201:
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        400:
+          description: Erreur de validation
+
+  /api/auth/login:
+    post:
+      tags:
+        - Authentification
+      summary: Connexion utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: jdoe@example.com
+                password:
+                  type: string
+                  example: secret123456
+      responses:
+        200:
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        401:
+          description: Identifiants invalides
+
+  /api/auth/me:
+    get:
+      tags:
+        - Authentification
+      summary: Récupérer le profil de l'utilisateur connecté
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Profil utilisateur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        401:
+          description: Non autorisé
+
+  /api/tasks:
+    get:
+      tags:
+        - Tâches
+      summary: Récupérer toutes les tâches de l'utilisateur connecté
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Liste des tâches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        401:
+          description: Non autorisé
+    
+    post:
+      tags:
+        - Tâches
+      summary: Créer une nouvelle tâche
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: Faire les courses
+                description:
+                  type: string
+                  example: Acheter du lait et du pain
+                completed:
+                  type: boolean
+                  default: false
+      responses:
+        201:
+          description: Tâche créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Erreur de validation
+        401:
+          description: Non autorisé
+
+  /api/tasks/{id}:
+    get:
+      tags:
+        - Tâches
+      summary: Récupérer une tâche par ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Tâche trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        403:
+          description: Accès refusé (pas votre tâche)
+        404:
+          description: Tâche non trouvée
+    
+    put:
+      tags:
+        - Tâches
+      summary: Mettre à jour une tâche
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        200:
+          description: Tâche mise à jour
+        403:
+          description: Accès refusé
+        404:
+          description: Tâche non trouvée
+    
+    delete:
+      tags:
+        - Tâches
+      summary: Supprimer une tâche
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Tâche supprimée
+        403:
+          description: Accès refusé
+        404:
+          description: Tâche non trouvée

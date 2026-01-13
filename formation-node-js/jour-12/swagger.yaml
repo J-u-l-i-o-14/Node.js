@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: API Test Modèles (Jour 12)
+  description: API pour tester les validations Mongoose des modèles Task et User.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Serveur de développement
+paths:
+  /test-task:
+    post:
+      summary: Créer une tâche (Test Validation)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Ma nouvelle tâche
+                description:
+                  type: string
+                  example: Description de la tâche
+                completed:
+                  type: boolean
+                  example: false
+      responses:
+        201:
+          description: Tâche créée avec succès
+        400:
+          description: Erreur de validation Mongoose
+
+  /test-user:
+    post:
+      summary: Créer un utilisateur (Test Validation)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: antigravity
+                email:
+                  type: string
+                  example: test@example.com
+                password:
+                  type: string
+                  example: secret123
+                role:
+                  type: string
+                  enum: [user, admin]
+                  example: user
+      responses:
+        201:
+          description: Utilisateur créé avec succès
+        400:
+          description: Erreur de validation Mongoose

@@ -4,6 +4,8 @@ const tasksRouter = require('./routes/tasks');
 const app = express();
 const PORT = 3000;
 
+// Pour lire le JSON 
+// ou
 // Middleware pour parser le JSON (on verra ça en détail demain, mais c'est utile)
 app.use(express.json());
 

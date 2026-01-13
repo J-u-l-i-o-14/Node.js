@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: API ToDo List (MongoDB) - Jour 13
+  description: API de gestion de tâches connectée à MongoDB.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Serveur de développement
+paths:
+  /api/tasks:
+    get:
+      summary: Récupérer toutes les tâches
+      responses:
+        200:
+          description: Liste des tâches récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: Créer une nouvelle tâche
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: Apprendre Mongoose
+                description:
+                  type: string
+                  example: Comprendre les schémas et modèles
+      responses:
+        201:
+          description: Tâche créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Erreur de validation
+
+  /api/tasks/{id}:
+    get:
+      summary: Récupérer une tâche par son ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID MongoDB de la tâche
+      responses:
+        200:
+          description: Tâche trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        404:
+          description: Tâche non trouvée
+    put:
+      summary: Mettre à jour une tâche
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        200:
+          description: Tâche mise à jour
+        404:
+          description: Tâche non trouvée
+    delete:
+      summary: Supprimer une tâche
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Tâche supprimée
+        404:
+          description: Tâche non trouvée
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      example:
+        _id: 60d5ecb54b642300159c9e9a
+        title: Faire les courses
+        description: Acheter du lait et du pain
+        completed: false
+        createdAt: 2021-06-25T10:00:00.000Z

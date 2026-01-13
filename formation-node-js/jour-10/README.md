@@ -30,12 +30,12 @@ Le serveur sera accessible sur [http://localhost:3000](http://localhost:3000).
 ## Endpoints de l'API
 
 | Méthode | Endpoint       | Description                  |
-|---------|----------------|------------------------------|
-| GET     | `/api/tasks`   | Récupérer toutes les tâches  |
-| GET     | `/api/tasks/:id`| Récupérer une tâche par ID   |
+|---------|-----------------|------------------------------|
+| GET     | `/api/tasks`    | Récupérer toutes les tâches  |
+| GET     | `/api/tasks/:id`| Récupérer une tâche par ID  |
 | POST    | `/api/tasks`   | Créer une nouvelle tâche     |
-| PUT     | `/api/tasks/:id`| Mettre à jour une tâche      |
-| DELETE  | `/api/tasks/:id`| Supprimer une tâche          |
+| PUT     | `/api/tasks/:id`| Mettre à jour une tâche     |
+| DELETE  | `/api/tasks/:id`| Supprimer une tâche         |
 
 ## Exemple de corps JSON (POST/PUT)
 

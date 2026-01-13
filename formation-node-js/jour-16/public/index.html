@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Temps Réel - Socket.IO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Écran de connexion -->
+        <div id="login-screen" class="screen">
+            <div class="login-box">
+                <h1>💬 Chat en Temps Réel</h1>
+                <p>Entrez votre nom pour rejoindre le chat</p>
+                <input type="text" id="username-input" placeholder="Votre nom..." maxlength="20">
+                <button id="join-btn">Rejoindre</button>
+            </div>
+        </div>
+
+        <!-- Écran de chat -->
+        <div id="chat-screen" class="screen hidden">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>💬 Chat en Direct</h2>
+                    <span id="user-count" class="user-count">0 utilisateurs</span>
+                </div>
+
+                <div id="messages" class="messages"></div>
+
+                <div class="input-container">
+                    <input type="text" id="message-input" placeholder="Tapez votre message..." maxlength="200">
+                    <button id="send-btn">Envoyer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.IO Client -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

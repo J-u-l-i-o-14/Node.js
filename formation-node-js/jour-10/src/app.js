@@ -3,15 +3,23 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 const taskRoutes = require('./routes/tasks');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Chargement du fichier Swagger
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 // Middlewares
 app.use(cors()); // Autorise les requêtes Cross-Origin
 app.use(morgan('dev')); // Logger HTTP
 app.use(express.json()); // Parser JSON
+
+// Documentation Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/api/tasks', taskRoutes);

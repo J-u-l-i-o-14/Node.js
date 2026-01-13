@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: API ToDo List (Formation Node.js)
+  description: API de gestion de tâches créée lors de la semaine 2 de la formation.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Serveur de développement
+paths:
+  /api/tasks:
+    get:
+      summary: Récupérer toutes les tâches
+      responses:
+        200:
+          description: Liste des tâches récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: Créer une nouvelle tâche
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: Apprendre Swagger
+      responses:
+        201:
+          description: Tâche créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Données invalides
+
+  /api/tasks/{id}:
+    get:
+      summary: Récupérer une tâche par son ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la tâche
+      responses:
+        200:
+          description: Tâche trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        404:
+          description: Tâche non trouvée
+    put:
+      summary: Mettre à jour une tâche
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        200:
+          description: Tâche mise à jour
+        404:
+          description: Tâche non trouvée
+    delete:
+      summary: Supprimer une tâche
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Tâche supprimée
+        404:
+          description: Tâche non trouvée
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        completed:
+          type: boolean
+      example:
+        id: 1
+        title: Faire les courses
+        completed: false
